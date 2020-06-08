@@ -5,7 +5,7 @@ resource "digitalocean_droplet" "server" {
     size = "s-1vcpu-1gb"
     private_networking = true
     ssh_keys = [
-      var.ssh_fingerprint
+        var.ssh_fingerprint
     ]
 
     connection {
@@ -16,12 +16,15 @@ resource "digitalocean_droplet" "server" {
         timeout = "2m"
     }
 
+    provisioner "file" {
+        source      = "install-soft.sh"
+        destination = "/opt/install-soft.sh"
+    }
+
     provisioner "remote-exec" {
         inline = [
-          "export PATH=$PATH:/usr/bin",
-          # install nginx
-          "sudo apt-get update",
-          "sudo apt-get -y install nginx"
+          "chmod +x /opt/install-soft.sh",
+          "/opt/install-soft.sh"
         ]
     }
 }

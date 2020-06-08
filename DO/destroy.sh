@@ -1,7 +1,7 @@
 #!/bin/bash
 set -eu
 
-source crendentials
+source credentials
 
 terraform plan -destroy -out=terraform.tfplan \
   -var "do_token=${DO_PAT}" \
